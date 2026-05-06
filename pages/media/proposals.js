@@ -1,0 +1,3 @@
+import { pageStyle, topNav, Card, Button, grid, StatusRail } from '../../components/TsaakUI';
+import { talents } from '../../data/talents';
+export default function MediaProposals(){const list=(talents||[]).slice(0,4);return <main style={pageStyle('media')}>{topNav('media')}<section style={{maxWidth:1180,margin:'0 auto',padding:28}}><h1>Réponses au Wanted</h1><StatusRail active={2} tone="#00E5FF"/><div style={{...grid,marginTop:24}}>{list.map(t=><Card key={t.id} tone="#00E5FF"><img src={t.photo} style={{width:'100%',height:160,objectFit:'cover',borderRadius:18}}/><h2>{t.name}</h2><p>{t.role} · Score {t.score}</p><Button href={`/talent/${t.id}`} tone="#00E5FF">Consulter</Button><Button href="/messaging" tone="#00E5FF">Contacter</Button></Card>)}</div></section></main>}

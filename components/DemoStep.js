@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function DemoStep({n,title,text,href,cta,color='#00D5FF'}){return <div className="card" style={{'--glow':color+'22',borderColor:color+'55'}}><div className="row"><span className="avatar" style={{width:46,height:46,borderRadius:14,fontSize:18,'--accent':color}}>{n}</span><div><h3 style={{margin:'0 0 6px'}}>{title}</h3><p className="muted" style={{margin:0}}>{text}</p></div></div>{href&&<Link className="btn primary" style={{marginTop:16,'--accent':color}} href={href}>{cta||'Tester'} →</Link>}</div>}

@@ -1,0 +1,15 @@
+export const colors = { media:'#00E5FF', talent:'#39FF88', intermediaire:'#FF4FD8', communaute:'#4D7CFF', organisation:'#FF9B3D', core:'#F6FF00' };
+
+export function page(theme='media'){
+  const c = colors[theme] || colors.media;
+  return { minHeight:'100vh', color:'#F7FBFF', fontFamily:'Arial, sans-serif', padding:32, background:`radial-gradient(circle at 15% 10%, ${c}22, transparent 28%), radial-gradient(circle at 90% 0%, #F6FF0020, transparent 22%), linear-gradient(135deg,#02030A,#080B18 45%,#02030A)` };
+}
+export function nav(c=colors.media){ return <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:28,flexWrap:'wrap'}}><a href='/' style={link(c)}>Home</a><a href='/demo' style={link(c)}>Mode démo</a><a href='/patchwork' style={link(c)}>Patchwork</a><a href='/talent-onboarding' style={link(c)}>Onboarding talent</a><a href='/score-explained' style={link(c)}>Score</a></div> }
+export function link(c){return {color:'#fff',textDecoration:'none',padding:'10px 14px',border:`1px solid ${c}55`,borderRadius:999,background:'#ffffff08'}}
+export function card(c=colors.media){return {border:`1px solid ${c}44`,background:'linear-gradient(180deg,#ffffff12,#ffffff06)',boxShadow:`0 0 36px ${c}18`,borderRadius:28,padding:24,backdropFilter:'blur(14px)'}}
+export function button(c=colors.media){return {display:'inline-flex',alignItems:'center',justifyContent:'center',gap:8,padding:'13px 18px',borderRadius:999,border:`1px solid ${c}`,background:`linear-gradient(135deg,${c}33,#ffffff10)`,color:'#fff',textDecoration:'none',boxShadow:`0 0 26px ${c}33`,fontWeight:800}}
+export function ghost(c=colors.media){return {...button(c),background:'#ffffff08',boxShadow:'none'}}
+export function TsaakMark({size=120}={}){return <img src='/tsaak-logo.jpg' alt='TSAAK' style={{width:size,maxWidth:'70vw',filter:'drop-shadow(0 0 20px rgba(246,255,0,.25))'}}/>}
+export function Badge({children,c=colors.media}){return <span style={{fontSize:12,padding:'7px 10px',borderRadius:999,border:`1px solid ${c}66`,color:c,background:`${c}12`,fontWeight:800}}>{children}</span>}
+export function Progress({label,value,c=colors.media}){return <div style={{margin:'14px 0'}}><div style={{display:'flex',justifyContent:'space-between',color:'#C9D4E4',fontSize:13}}><span>{label}</span><b>{value}</b></div><div style={{height:9,borderRadius:99,background:'#ffffff12',overflow:'hidden',marginTop:7}}><div style={{height:'100%',width:value,background:`linear-gradient(90deg,${c},#F6FF00)`,boxShadow:`0 0 18px ${c}`}}/></div></div>}
+export function ProofCard({p,c=colors.media}){return <div style={{...card(c),padding:0,overflow:'hidden'}}><div style={{height:130,backgroundImage:`linear-gradient(180deg,transparent,#02030A), url(${p.thumbnail})`,backgroundSize:'cover',backgroundPosition:'center'}}/><div style={{padding:18}}><Badge c={c}>{p.icon} {p.type}</Badge><h3 style={{margin:'14px 0 6px'}}>{p.title}</h3><p style={{color:'#9FACBF',margin:0}}>{p.source} · {p.date}</p><p style={{color:c,fontWeight:800}}>{p.metric}</p><p style={{color:'#C9D4E4'}}>{p.note}</p></div></div>}

@@ -1,0 +1,1 @@
+export default function BusinessCase({n,title,steps,href,color='#00D5FF'}){return <div className="card" style={{borderColor:color}}><div className="kicker">Business case {n}</div><h2>{title}</h2>{steps.map((s,i)=><p key={i} className="muted"><b style={{color:'white'}}>{i+1}.</b> {s}</p>)}<a className="btn primary" href={href}>Tester ce flow</a></div>}

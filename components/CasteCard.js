@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function CasteCard({c}){return <Link className="card glass" href={c.href} style={{'--glow':c.color+'33',borderColor:c.color+'88',textDecoration:'none',color:'white'}}><div className="eyebrow" style={{color:c.color}}>Je me connecte comme</div><h2 style={{fontSize:32,margin:'10px 0'}}>{c.name}</h2><p className="muted">{c.desc}</p><span className="btn primary" style={{'--accent':c.color}}>Entrer →</span></Link>}

@@ -1,0 +1,2 @@
+import { pageStyle, topNav, Card, Button, StatusRail } from '../components/TsaakUI';
+export default function Contracts(){return <main style={pageStyle('organisation')}>{topNav('organisation')}<section style={{maxWidth:1180,margin:'0 auto',padding:28}}><h1>Contract builder</h1><Card tone="#FF8A00"><h2>LCI × Sarah Benali</h2><StatusRail items={['Draft','Talent OK','Media OK','Signed','Paid']} active={3} tone="#FF8A00"/><p>Fee: €1,800 · Usage: live TV + replay 7 days · Travel: remote studio</p><Button tone="#FF8A00">Generate final PDF</Button></Card></section></main>}

@@ -1,0 +1,1 @@
+export default function Timeline({active='Open'}){const steps=['Open','Proposals','Shortlist','Selected','Contract','Paid','Done'];return <div className="timeline">{steps.map(s=><span key={s} className={'dot '+(s===active?'active':'')}>{s}</span>)}</div>}
