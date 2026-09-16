@@ -6,17 +6,24 @@ const castes = [
   { key:'communaute', name:'Communauté', role:'FanTsaak, curateurs, signaux faibles', href:'/communaute', icon:'✺', color:'#3B82FF', x:'50%', y:'86%', note:'Suivre, recommander, amplifier les talents' }
 ];
 
+const bizCases = [
+  { title:'Connexion LinkedIn', text:'Import instantané du profil + scan IA des preuves média.', href:'/talent-onboarding/self', color:'#7CFFB2', icon:'in' },
+  { title:'Contrat & paiement', text:'Template → signature électronique → paiement sécurisé.', href:'/contract', color:'#FF9B3D', icon:'€' },
+  { title:'Calcul du score', text:'4 leviers pondérés, recalculés en direct sous vos yeux.', href:'/score-explained', color:'#F6FF00', icon:'◎' },
+  { title:'Mercato', text:'2 mois par an : médias et guests se repositionnent, paliers 2K/4K/6K.', href:'/mercato', color:'#FF2FD6', icon:'⇄' },
+];
+
 export default function Home(){
   return <main style={s.page}>
     <div style={s.bgOrbA}/><div style={s.bgOrbB}/><div style={s.scan}/>
     <section style={s.hero}>
       <div style={s.left}>
         <img src="/tsaak-logo.jpg" alt="TSAAK" style={s.logo}/>
-        <p style={s.tagline}>easy matching ecosystem</p>
+        <p style={s.tagline}>easy booking ecosystem</p>
         <h1 style={s.title}>Le cockpit qui connecte les castes, les signaux et les opportunités média.</h1>
-        <p style={s.sub}>TSAAK transforme la recherche de talents en un écosystème vivant : Wanted, Patchwork, inscriptions, scoring et collaboration multi-acteurs.</p>
+        <p style={s.sub}>TSAAK transforme la recherche de talents en un écosystème vivant : Wanted, Patchwork, inscriptions, scoring, Mercato et collaboration multi-acteurs.</p>
         <div style={s.ctas}><a style={s.primary} href="/demo">Lancer le mode démo</a><a style={s.secondary} href="/media">Entrer comme Media</a></div>
-        <div style={s.metrics}><Metric n="5" t="castes connectées"/><Metric n="50" t="talents demo"/><Metric n="3" t="modes de recherche"/></div>
+        <div style={s.metrics}><Metric n="5" t="castes connectées"/><Metric n="50" t="talents demo"/><Metric n="4" t="business cases simulés"/></div>
       </div>
       <div style={s.network}>
         <svg style={s.lines} viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -29,6 +36,15 @@ export default function Home(){
         </a>)}
       </div>
     </section>
+
+    <section style={s.bizHeader}><h2 style={s.bizTitle}>4 business cases clés, entièrement simulés</h2><p style={s.bizSub}>Cliquez, testez, montrez le résultat — tout fonctionne en local, sans backend.</p></section>
+    <section style={s.bizGrid}>{bizCases.map(b=><a href={b.href} key={b.title} style={{...s.bizCard,borderColor:b.color,boxShadow:`0 0 26px ${b.color}22`}}>
+      <span style={{...s.bizIcon,color:b.color,borderColor:b.color}}>{b.icon}</span>
+      <strong style={{fontSize:18}}>{b.title}</strong>
+      <p style={{color:'#AAB3C5',margin:'8px 0 0',fontSize:14}}>{b.text}</p>
+      <span style={{color:b.color,fontWeight:800,fontSize:13,marginTop:10}}>Tester →</span>
+    </a>)}</section>
+
     <section style={s.bottomGrid}>{castes.map(c=><a href={c.href} key={c.key} style={{...s.casteCard,borderColor:c.color,boxShadow:`0 0 24px ${c.color}22`}}><span style={{color:c.color}}>{c.icon} {c.name}</span><p>{c.note}</p></a>)}</section>
     <style jsx global>{`body{margin:0;background:#03040a} a{box-sizing:border-box}`}</style>
   </main>
@@ -50,4 +66,10 @@ const s={
  node:{position:'absolute',transform:'translate(-50%,-50%)',width:180,minHeight:118,padding:16,border:'1px solid',borderRadius:24,background:'rgba(5,7,18,.76)',backdropFilter:'blur(14px)',color:'white',textDecoration:'none',display:'grid',gap:6},
  bottomGrid:{position:'relative',zIndex:1,display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:14,marginTop:20},
  casteCard:{padding:20,border:'1px solid',borderRadius:22,background:'rgba(255,255,255,.055)',color:'white',textDecoration:'none'},
+ bizHeader:{position:'relative',zIndex:1,marginTop:64,textAlign:'center'},
+ bizTitle:{fontSize:'clamp(28px,3.4vw,42px)',margin:'0 0 8px'},
+ bizSub:{color:'#8CA0B8',fontSize:16,margin:0},
+ bizGrid:{position:'relative',zIndex:1,display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(230px,1fr))',gap:16,marginTop:26},
+ bizCard:{padding:24,border:'1px solid',borderRadius:24,background:'linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02))',color:'white',textDecoration:'none',display:'flex',flexDirection:'column'},
+ bizIcon:{width:36,height:36,borderRadius:11,border:'1px solid',display:'grid',placeItems:'center',fontWeight:900,marginBottom:14},
 };

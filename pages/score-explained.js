@@ -1,8 +1,60 @@
-import { page, nav, card, button, colors, Badge, Progress } from '../components/RichDemoUI';
-const factors=[
-['Désirabilité du Talent','Demandes entrantes, rareté du sujet, tension marché, budget média.', '92%', colors.talent],
-['Indice FanTSAak','Signaux communauté, recommandations, engagement sur contenus et suivis.', '81%', colors.communaute],
-['Passages média','TV, podcast, presse, tribunes, panels, séminaires et récence des preuves.', '88%', colors.media],
-['Performance','Fiabilité, rapidité de réponse, qualité brief, ponctualité, satisfaction post-intervention.', '94%', colors.organisation]
+import { useMemo } from 'react';
+import { page, card, button, colors, Badge, Progress, Masthead, CountUp, Slider, useLocal, ProofCard } from '../components/RichDemoUI';
+import { mediaProofs } from '../data/mediaProofs';
+
+const FACTORS = [
+  { k:'desirability', name:'Désirabilité du Talent', desc:'Demandes entrantes, rareté du sujet, tension marché, budget média.', weight:0.30, c:colors.talent },
+  { k:'fan', name:'Indice FanTSAak', desc:'Signaux communauté, recommandations, engagement sur contenus et suivis.', weight:0.20, c:colors.communaute },
+  { k:'media', name:'Passages média', desc:'TV, podcast, presse, tribunes, panels, séminaires et récence des preuves.', weight:0.30, c:colors.media },
+  { k:'performance', name:'Performance', desc:'Fiabilité, rapidité de réponse, qualité brief, ponctualité, satisfaction post-intervention.', weight:0.20, c:colors.organisation },
 ];
-export default function Score(){return <main style={page('talent')}>{nav(colors.talent)}<Badge c={colors.talent}>SCORE EXPLAINED</Badge><h1 style={{fontSize:56}}>Comment TSAAK calcule le score d’un Talent</h1><p style={{color:'#C9D4E4',fontSize:20,maxWidth:900}}>Le score ne mesure pas seulement la notoriété : il mesure la capacité réelle à matcher, performer et créer de la valeur dans l’écosystème.</p><section style={{...card(colors.core),display:'grid',gridTemplateColumns:'220px 1fr',gap:24,alignItems:'center'}}><div style={{fontSize:72,fontWeight:900,color:colors.core,textShadow:`0 0 30px ${colors.core}`}}>92</div><div><h2>TSAAK Score</h2><p style={{color:'#C9D4E4'}}>Score combiné, mis à jour selon les preuves média, demandes, réponses, feedbacks et signaux FanTSAak.</p></div></section><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20,marginTop:24}}>{factors.map(f=><section key={f[0]} style={card(f[3])}><Badge c={f[3]}>{f[0]}</Badge><Progress label='Contribution' value={f[2]} c={f[3]}/><p style={{color:'#C9D4E4'}}>{f[1]}</p></section>)}</div><a style={{...button(colors.talent),marginTop:28}} href='/talent/sarah-benali'>Voir exemple Sarah Benali</a></main>}
+
+const HISTORY = [78,81,83,85,86,88,89,90,91,92];
+
+export default function Score(){
+  const [values, setValues] = useLocal('tsaak:score:factors', { desirability:92, fan:81, media:88, performance:94 });
+
+  const score = useMemo(()=> FACTORS.reduce((sum,f)=> sum + (values[f.k]||0)*f.weight, 0), [values]);
+
+  return <main style={page('talent')}>
+    <Masthead active='score'/>
+    <Badge c={colors.talent}>BUSINESS CASE · SCORE TSAAK</Badge>
+    <h1 style={{fontSize:52,maxWidth:920}}>Comment TSAAK calcule le score d’un Talent</h1>
+    <p style={{color:'#C9D4E4',fontSize:19,maxWidth:900}}>Le score ne mesure pas seulement la notoriété : il mesure la capacité réelle à matcher, performer et créer de la valeur dans l’écosystème. Recalculé automatiquement et quotidiennement. Bougez les curseurs pour simuler l’impact de chaque levier.</p>
+
+    <section style={{...card(colors.core),display:'grid',gridTemplateColumns:'220px 1fr',gap:24,alignItems:'center'}}>
+      <div style={{fontSize:76,fontWeight:900,color:colors.core,textShadow:`0 0 34px ${colors.core}`}}><CountUp value={score} decimals={0}/></div>
+      <div>
+        <h2 style={{margin:'0 0 8px'}}>Score TSAAK live</h2>
+        <p style={{color:'#C9D4E4',margin:0}}>score = Σ (valeur du facteur × poids) — mis à jour selon les preuves média, demandes, réponses, feedbacks et signaux FanTSAak.</p>
+      </div>
+    </section>
+
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:20,marginTop:24}}>
+      {FACTORS.map(f=><section key={f.k} style={card(f.c)}>
+        <Badge c={f.c}>{f.name} · poids {Math.round(f.weight*100)}%</Badge>
+        <Slider label='Valeur actuelle' value={values[f.k]} c={f.c} onChange={v=>setValues({...values,[f.k]:v})}/>
+        <p style={{color:'#C9D4E4',fontSize:14}}>{f.desc}</p>
+        <p style={{color:f.c,fontSize:13,fontWeight:800}}>Contribution au score : {(values[f.k]*f.weight).toFixed(1)} pts</p>
+      </section>)}
+    </div>
+
+    <section style={{...card('rgba(255,255,255,.12)'),marginTop:24}}>
+      <h2>Historique & leviers</h2>
+      <p style={{color:'#C9D4E4'}}>Évolution du score sur les 10 dernières interventions — chaque contrat signé, avis FanTSAak et passage média recalcule la valeur.</p>
+      <div style={{display:'flex',alignItems:'flex-end',gap:8,height:120,marginTop:14}}>
+        {HISTORY.map((h,i)=><div key={i} title={h} style={{flex:1,background:`linear-gradient(180deg,${colors.talent},${colors.talent}33)`,borderRadius:6,height:`${h}%`,opacity:i===HISTORY.length-1?1:.55}}/>)}
+      </div>
+      <div style={{display:'flex',justifyContent:'space-between',color:'#64748b',fontSize:12,marginTop:6}}><span>Il y a 10 interventions</span><span>Aujourd’hui</span></div>
+    </section>
+
+    <div style={{display:'flex',gap:10,flexWrap:'wrap',marginTop:24}}>
+      <a style={button(colors.talent)} href='/talent/sarah-benali'>Voir exemple Sarah Benali</a>
+      <a style={button(colors.intermediaire)} href='/mercato'>Voir l’impact sur le Mercato</a>
+      <a style={button(colors.organisation)} href='/contract'>Voir l’impact sur un contrat</a>
+    </div>
+
+    <h2 style={{marginTop:32}}>Preuves qui nourrissent le score</h2>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:16}}>{mediaProofs.map(p=><ProofCard key={p.title} p={p} c={colors.talent}/>)}</div>
+  </main>;
+}
