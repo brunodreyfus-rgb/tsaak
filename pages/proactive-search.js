@@ -1,3 +1,14 @@
-import { page, card, button, colors, Badge, Masthead, Progress } from '../components/RichDemoUI';
-import { talents } from '../data/talents';
-export default function ProactiveSearch(){const c=colors.media; const list=(Array.isArray(talents)?talents:[]).slice(0,6);return <main style={page('media')}><Masthead/><Badge c={c}>PROACTIVE SEARCH</Badge><h1 style={{fontSize:56}}>Recherche proactive multi-critères</h1><p style={{color:'#C9D4E4',fontSize:20}}>Le média contrôle la recherche : sujet, format, langue, géographie, disponibilité, score, type de preuve média.</p><section style={{...card(c),display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:12}}>{['Topic: AI regulation','Language: FR/EN','Format: Live TV','Country: EU / UAE','Availability: 24h','Score > 85'].map(f=><Badge key={f} c={c}>{f}</Badge>)}</section><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:18,marginTop:24}}>{list.map((t,i)=><section key={t.id || t.name || i} style={card(i%2?colors.talent:c)}><div style={{display:'flex',gap:14,alignItems:'center'}}><img src={t.avatar || t.photo || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80'} style={{width:62,height:62,borderRadius:18,objectFit:'cover'}}/><div><h3 style={{margin:0}}>{t.name}</h3><p style={{margin:'6px 0',color:'#C9D4E4'}}>{t.role}</p></div></div><Progress label='Fit' value={(t.score || 88)+'%'} c={i%2?colors.talent:c}/><a href={'/talent/'+(t.id || 'sarah-benali')} style={button(i%2?colors.talent:c)}>Voir profil</a></section>)}</div></main>}
+import { useEffect } from 'react';
+import { page, card, button, colors, Badge, Masthead } from '../components/RichDemoUI';
+
+// Merged into /search — this route now redirects there so old links keep working.
+export default function ProactiveSearch(){
+  useEffect(()=>{ window.location.replace('/search'); },[]);
+  return <main style={page('media')}>
+    <Masthead active='recherche'/>
+    <Badge c={colors.media}>RECHERCHE</Badge>
+    <h1 style={{fontSize:44}}>Redirection…</h1>
+    <p style={{color:'#C9D4E4'}}>La recherche proactive a été fusionnée avec la nouvelle page Recherche.</p>
+    <a style={button(colors.media)} href='/search'>Aller à la recherche →</a>
+  </main>;
+}

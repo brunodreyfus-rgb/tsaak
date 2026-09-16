@@ -1,3 +1,48 @@
-import { pageStyle, topNav, Card, Button, StatusRail, grid, input } from '../components/TsaakUI';
-import { wanted } from '../data/talents';
-export default function Wanted(){return <main style={pageStyle('media')}>{topNav('media')}<section style={{maxWidth:1180,margin:'0 auto',padding:28}}><h1 style={{fontSize:54}}>Wanted cockpit</h1><Card tone="#00E5FF"><h2>Créer un Wanted</h2><div style={grid}><input style={input} defaultValue="Expert IA & société pour plateau TV"/><input style={input} defaultValue="Demain 18:00"/><input style={input} defaultValue="€1,800"/></div><textarea style={{...input,marginTop:12,height:110}} defaultValue="Nous cherchons un profil TV ready, FR/EN, capable de vulgariser les impacts IA sur emploi et démocratie."/><Button href="/intermediaires" tone="#00E5FF">Publier aux intermédiaires</Button></Card><div style={{...grid,marginTop:24}}>{wanted.map((w,i)=><Card key={w.id} tone="#00E5FF"><h2>{w.title}</h2><p style={{color:'#94a3b8'}}>{w.brief}</p><StatusRail active={i+1}/><p>{w.responses} réponses · Budget {w.budget}</p><Button href="/media/proposals" tone="#00E5FF">Voir réponses</Button></Card>)}</div></section></main>}
+import { page, card, button, colors, Badge, Masthead, Stepper, useLocal } from '../components/RichDemoUI';
+
+const STATUSES = ['Open','Proposals','Shortlist','Selected','Contract','Paid','Done'];
+
+const DEFAULT_WANTED = { title:'Expert IA & société pour plateau TV', media:'LCI', budget:'1 800 €', deadline:'Demain 18:00', brief:'Nous cherchons un profil TV ready, FR/EN, capable de vulgariser les impacts de l’IA sur l’emploi et la démocratie.', status:'Open' };
+
+export default function Wanted(){
+  const [w,setW] = useLocal('tsaak:wanted', DEFAULT_WANTED);
+  const [proposals] = useLocal('tsaak:proposals', []);
+  const set = (k,v)=>setW({...w,[k]:v});
+  const stageIdx = Math.max(0, STATUSES.indexOf(w.status));
+
+  return <main style={page('media')}>
+    <Masthead active='recherche'/>
+    <Badge c={colors.media}>BUSINESS CASE · WANTED</Badge>
+    <h1 style={{fontSize:48,maxWidth:900}}>Wanted cockpit</h1>
+    <p style={{color:'#C9D4E4',fontSize:18,maxWidth:880}}>Publiez un besoin précis. Les intermédiaires et bookers le voient dans leur inbox et proposent des talents.</p>
+
+    <Stepper c={colors.media} active={stageIdx} steps={STATUSES}/>
+
+    <div style={{display:'grid',gridTemplateColumns:'1.1fr .9fr',gap:22}}>
+      <section style={card(colors.media)}>
+        <h2>Éditer le Wanted</h2>
+        <div style={{display:'grid',gap:10}}>
+          <input value={w.title} onChange={e=>set('title',e.target.value)} style={inp} placeholder='Titre'/>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+            <input value={w.media} onChange={e=>set('media',e.target.value)} style={inp} placeholder='Média'/>
+            <input value={w.budget} onChange={e=>set('budget',e.target.value)} style={inp} placeholder='Budget'/>
+          </div>
+          <input value={w.deadline} onChange={e=>set('deadline',e.target.value)} style={inp} placeholder='Deadline'/>
+          <textarea value={w.brief} onChange={e=>set('brief',e.target.value)} style={{...inp,minHeight:100}} placeholder='Brief'/>
+        </div>
+        <button onClick={()=>set('status','Open')} style={{...button(colors.media),border:'none',cursor:'pointer',marginTop:12}}>Publier aux intermédiaires</button>
+      </section>
+
+      <section style={card(colors.intermediaire)}>
+        <h2>Statut</h2>
+        <p style={{color:'#C9D4E4'}}><b>{proposals.length}</b> proposition{proposals.length>1?'s':''} reçue{proposals.length>1?'s':''} · statut actuel : <b style={{color:colors.core}}>{w.status}</b></p>
+        <p style={{color:'#94a3b8',fontSize:13}}>Les intermédiaires répondent depuis leur cockpit (« Répondre à un Wanted »).</p>
+        <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+          <a style={button(colors.intermediaire)} href='/intermediaires/respond'>Simuler une réponse d’intermédiaire</a>
+          <a style={button(colors.media)} href='/media/proposals'>Voir les propositions →</a>
+        </div>
+      </section>
+    </div>
+  </main>;
+}
+const inp = {width:'100%',padding:13,borderRadius:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.14)',color:'#fff',boxSizing:'border-box'};

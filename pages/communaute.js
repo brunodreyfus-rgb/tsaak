@@ -1,12 +1,13 @@
-import { page, card, button, ghost, colors, Badge, Progress, Masthead, Avatar } from '../components/RichDemoUI';
+import { page, card, button, colors, Badge, Progress, Masthead, PERSONAS } from '../components/RichDemoUI';
 
 export default function Communaute(){
   const c = colors.communaute;
+  const me = PERSONAS.find(p=>p.key==='communaute');
   return <main style={page('communaute')}>
     <Masthead active='castes'/>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:16,marginBottom:22}}>
-      <div><Badge c={c}>CASTE COMMUNAUTÉ</Badge><h1 style={{margin:'10px 0 4px'}}>Salut Léo 👋</h1><p style={{color:'#AAB3C5',margin:0}}>FanTSAak · Curateur climat & tech — tes recommandations ont généré 6 nouveaux signaux cette semaine.</p></div>
-      <Avatar big src='https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=200&auto=format&fit=crop' name='Léo Martin' role='FanTSAak'/>
+      <div><Badge c={c}>CASTE COMMUNAUTÉ</Badge><h1 style={{margin:'10px 0 4px'}}>Salut {me.name} 👋</h1><p style={{color:'#AAB3C5',margin:0}}>{me.role} — tes recommandations ont généré 6 nouveaux signaux cette semaine.</p></div>
+      <img src={me.photo} style={{width:64,height:64,borderRadius:20,objectFit:'cover',border:`1px solid ${c}55`}}/>
     </div>
 
     <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:24}}>
@@ -17,24 +18,20 @@ export default function Communaute(){
     </div>
 
     <h2>Business cases à tester depuis cette caste</h2>
-    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(230px,1fr))',gap:16,marginBottom:30}}>
-      <Case c={colors.core} href='/score-explained' title='Score TSAAK' text='Voyez le poids exact de l’indice FanTSAak dans le score.'/>
-      <Case c={colors.intermediaire} href='/mercato' title='Mercato' text='La Kaastbase peut investir jusqu’à 30% de la valeur d’un Guest.'/>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(210px,1fr))',gap:14,marginBottom:26}}>
+      <Case c={colors.core} href='/score-explained' title='Score TSAAK' text='Voyez le poids exact de l’indice FanTSAak.'/>
+      <Case c={colors.intermediaire} href='/mercato' title='Mercato' text='La Kaastbase peut investir jusqu’à 30%.'/>
       <Case c={colors.talent} href='/patchwork' title='Patchwork' text='Explorez les suggestions passives poussées aux médias.'/>
-      <Case c={colors.organisation} href='/contract' title='Suivre un contrat' text='Suivez le paiement d’un Guest que vous avez recommandé.'/>
+      <Case c={colors.organisation} href='/contract' title='Suivre un contrat' text='Suivez le paiement d’un Guest recommandé.'/>
     </div>
 
     <section style={card(c)}>
       <div style={{color:c,fontWeight:900,letterSpacing:2,fontSize:12}}>FANTSAAK / KAASTBASE</div>
-      <h2 style={{fontSize:34,margin:'10px 0'}}>Influencez la désirabilité des Talents.</h2>
-      <p style={{color:'#AAB3C5'}}>Suivez des talents, recommandez-les aux médias, commentez leurs interventions et investissez sur eux via la Kaastbase.</p>
+      <h2 style={{fontSize:28,margin:'8px 0'}}>Influencez la désirabilité des Talents.</h2>
       <Progress label='Poids de vos signaux ce mois-ci' value='81%' c={c}/>
-      <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
-        <a style={button(c)} href='/mercato'>Investir via la Kaastbase</a>
-        <a style={ghost(c)} href='/patchwork'>Ouvrir le feed FanTSAak</a>
-      </div>
+      <a style={button(c)} href='/mercato'>Investir via la Kaastbase</a>
     </section>
   </main>;
 }
 function Stat({c,label,value}){return <div style={{padding:18,borderRadius:18,background:'rgba(255,255,255,.05)',border:`1px solid ${c}44`}}><div style={{fontSize:12,color:'#94a3b8'}}>{label}</div><div style={{fontSize:28,fontWeight:900,color:c}}>{value}</div></div>;}
-function Case({c,href,title,text}){return <a href={href} style={{...card(c),textDecoration:'none',color:'#fff'}}><Badge c={c}>{title}</Badge><p style={{color:'#C9D4E4',margin:'10px 0 0'}}>{text}</p></a>;}
+function Case({c,href,title,text}){return <a href={href} style={{...card(c),textDecoration:'none',color:'#fff',padding:18}}><Badge c={c}>{title}</Badge><p style={{color:'#C9D4E4',margin:'8px 0 0',fontSize:13}}>{text}</p></a>;}

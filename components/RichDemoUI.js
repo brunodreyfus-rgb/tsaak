@@ -25,7 +25,7 @@ export const BIZ_CASES = [
 ];
 
 export function Masthead({active}){
-  const links=[['/','Home'],['/demo','Démo'],...BIZ_CASES.map(b=>[b.href,b.label]),['/media','Castes']];
+  const links=[['/','Home'],['/demo','Démo'],...BIZ_CASES.map(b=>[b.href,b.label]),['/select-caste','Castes']];
   return <div style={{display:'flex',flexWrap:'wrap',gap:10,alignItems:'center',maxWidth:1180,margin:'0 auto 26px',padding:'18px 0'}}>
     <a href='/' style={{display:'flex',alignItems:'center',gap:10,textDecoration:'none',color:'#fff',marginRight:8}}><img src='/tsaak-logo.jpg' style={{width:40,filter:'drop-shadow(0 0 12px rgba(0,213,255,.6))'}}/><b style={{letterSpacing:2}}>TSAAK</b></a>
     {links.map(([href,label])=><a key={href} href={href} style={{textDecoration:'none',fontSize:13,fontWeight:700,padding:'9px 13px',borderRadius:999,color: (active&&label.toLowerCase().includes(active)) ? '#02040a' : '#cbd5e1', background: (active&&label.toLowerCase().includes(active)) ? 'linear-gradient(90deg,#00D5FF,#7CFFB2)' : 'rgba(255,255,255,.05)', border:'1px solid rgba(255,255,255,.1)'}}>{label}</a>)}
@@ -78,16 +78,30 @@ export function SignaturePad({name,onSign,signed,c=colors.talent}){
   </div>;
 }
 
-export function Stepper({steps,active,c=colors.media}){
+export function Stepper({steps,active,c=colors.media,onStepClick,maxReached}){
+  const cap = maxReached==null ? steps.length-1 : maxReached;
   return <div style={{display:'flex',gap:0,flexWrap:'wrap',marginBottom:26}}>{steps.map((s,i)=>{
     const state = i<active?'done':i===active?'active':'todo';
+    const clickable = !!onStepClick && i<=cap;
     return <div key={s} style={{display:'flex',alignItems:'center'}}>
-      <div style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px',borderRadius:999,border:`1px solid ${state==='todo'?'rgba(255,255,255,.16)':c}`,background:state==='active'?c+'22':state==='done'?c+'11':'transparent',color:state==='todo'?'#5b6b82':'#fff',fontSize:13,fontWeight:800}}>
+      <div onClick={()=>clickable&&onStepClick(i)} style={{display:'flex',alignItems:'center',gap:8,padding:'9px 14px',borderRadius:999,border:`1px solid ${state==='todo'?'rgba(255,255,255,.16)':c}`,background:state==='active'?c+'22':state==='done'?c+'11':'transparent',color:state==='todo'?'#5b6b82':'#fff',fontSize:13,fontWeight:800,cursor:clickable?'pointer':'default'}}>
         <span style={{width:20,height:20,borderRadius:99,display:'grid',placeItems:'center',fontSize:11,background:state==='todo'?'rgba(255,255,255,.08)':c,color:state==='todo'?'#5b6b82':'#02040a'}}>{state==='done'?'✓':i+1}</span>{s}
       </div>{i<steps.length-1 && <span style={{width:22,height:1,background:'rgba(255,255,255,.18)'}}/>}
     </div>;
   })}</div>;
 }
+
+export const PERSONAS = [
+  { key:'media', name:'Bruno', role:'Media · Senior Producer, France 24', href:'/media', c:colors.media, photo:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&auto=format&fit=crop' },
+  { key:'talent', name:'Jonathan', role:'Talent · Expert cybersécurité', href:'/talent', c:colors.talent, photo:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=240&auto=format&fit=crop' },
+  { key:'intermediaire', name:'Jean', role:'Intermédiaire · Booker international', href:'/intermediaires', c:colors.intermediaire, photo:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=240&auto=format&fit=crop' },
+  { key:'organisation', name:'Pascale', role:'Organisation · Directrice événementiel', href:'/organisation', c:colors.organisation, photo:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=240&auto=format&fit=crop' },
+  { key:'communaute', name:'Jessica', role:'Communauté · FanTSAak', href:'/communaute', c:colors.communaute, photo:'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=240&auto=format&fit=crop' },
+];
+
+export function Chip({active,onClick,children,c=colors.media}){return <span onClick={onClick} style={{cursor:onClick?'pointer':'default',display:'inline-flex',alignItems:'center',gap:6,padding:'8px 13px',borderRadius:999,border:`1px solid ${active?c:'rgba(255,255,255,.18)'}`,background:active?c+'22':'rgba(255,255,255,.04)',color:active?'#fff':'#94a3b8',fontSize:12,fontWeight:700,userSelect:'none'}}>{children}</span>;}
+
+export function TypingDots({c=colors.media}){return <span style={{display:'inline-flex',gap:4,padding:'10px 14px'}}>{[0,1,2].map(i=><span key={i} style={{width:6,height:6,borderRadius:99,background:c,opacity:.7,animation:`tsaakBlink 1s ${i*0.15}s infinite`}}/>)}<style jsx>{`@keyframes tsaakBlink{0%,80%,100%{opacity:.25}40%{opacity:1}}`}</style></span>;}
 
 export function useLocal(key, initial){
   const [v,setV]=useState(initial);

@@ -9,8 +9,16 @@ const castes = [
 const bizCases = [
   { title:'Connexion LinkedIn', text:'Import instantané du profil + scan IA des preuves média.', href:'/talent-onboarding/self', color:'#7CFFB2', icon:'in' },
   { title:'Contrat & paiement', text:'Template → signature électronique → paiement sécurisé.', href:'/contract', color:'#FF9B3D', icon:'€' },
-  { title:'Calcul du score', text:'4 leviers pondérés, recalculés en direct sous vos yeux.', href:'/score-explained', color:'#F6FF00', icon:'◎' },
+  { title:'Calcul du score', text:'4 leviers pondérés, recalculés en direct, en 4 étapes.', href:'/score-explained', color:'#F6FF00', icon:'◎' },
   { title:'Mercato', text:'2 mois par an : médias et guests se repositionnent, paliers 2K/4K/6K.', href:'/mercato', color:'#FF2FD6', icon:'⇄' },
+];
+
+const moreCases = [
+  { title:'Recherche & Shortlist', text:'Filtres live sur 50 talents, multi-messaging avec réponses simulées.', href:'/search', color:'#00D5FF' },
+  { title:'Patchwork', text:'TSAAK pousse les bons guests avant même la recherche.', href:'/patchwork', color:'#FF2FD6' },
+  { title:'Wanted', text:'Publiez un besoin, recevez des propositions d’intermédiaires.', href:'/wanted', color:'#00D5FF' },
+  { title:'Recherche IA', text:'Un assistant conversationnel qui clarifie et shortlist.', href:'/ai-search', color:'#00D5FF' },
+  { title:'Help Me urgent', text:'Un guest en moins de 2h, réseau activé en direct.', href:'/help-me', color:'#FF9B3D' },
 ];
 
 export default function Home(){
@@ -22,7 +30,7 @@ export default function Home(){
         <p style={s.tagline}>easy booking ecosystem</p>
         <h1 style={s.title}>Le cockpit qui connecte les castes, les signaux et les opportunités média.</h1>
         <p style={s.sub}>TSAAK transforme la recherche de talents en un écosystème vivant : Wanted, Patchwork, inscriptions, scoring, Mercato et collaboration multi-acteurs.</p>
-        <div style={s.ctas}><a style={s.primary} href="/demo">Lancer le mode démo</a><a style={s.secondary} href="/media">Entrer comme Media</a></div>
+        <div style={s.ctas}><a style={s.primary} href="/demo">Lancer le mode démo</a><a style={s.secondary} href="/select-caste">Se connecter</a></div>
         <div style={s.metrics}><Metric n="5" t="castes connectées"/><Metric n="50" t="talents demo"/><Metric n="4" t="business cases simulés"/></div>
       </div>
       <div style={s.network}>
@@ -40,6 +48,13 @@ export default function Home(){
     <section style={s.bizHeader}><h2 style={s.bizTitle}>4 business cases clés, entièrement simulés</h2><p style={s.bizSub}>Cliquez, testez, montrez le résultat — tout fonctionne en local, sans backend.</p></section>
     <section style={s.bizGrid}>{bizCases.map(b=><a href={b.href} key={b.title} style={{...s.bizCard,borderColor:b.color,boxShadow:`0 0 26px ${b.color}22`}}>
       <span style={{...s.bizIcon,color:b.color,borderColor:b.color}}>{b.icon}</span>
+      <strong style={{fontSize:18}}>{b.title}</strong>
+      <p style={{color:'#AAB3C5',margin:'8px 0 0',fontSize:14}}>{b.text}</p>
+      <span style={{color:b.color,fontWeight:800,fontSize:13,marginTop:10}}>Tester →</span>
+    </a>)}</section>
+
+    <section style={s.bizHeader}><h2 style={s.bizTitle}>Et bien d'autres, désormais interactifs</h2><p style={s.bizSub}>Recherche, Patchwork, Wanted, assistant IA, Help Me urgent…</p></section>
+    <section style={s.bizGrid}>{moreCases.map(b=><a href={b.href} key={b.title} style={{...s.bizCard,borderColor:b.color,boxShadow:`0 0 26px ${b.color}22`}}>
       <strong style={{fontSize:18}}>{b.title}</strong>
       <p style={{color:'#AAB3C5',margin:'8px 0 0',fontSize:14}}>{b.text}</p>
       <span style={{color:b.color,fontWeight:800,fontSize:13,marginTop:10}}>Tester →</span>
