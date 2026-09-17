@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { page, card, button, colors, Badge, Progress, Masthead, Countdown, Slider, Stepper, useLocal, euro } from '../components/RichDemoUI';
 
 const TIERS = [ {v:2000,label:'Tier 2K',duration:'1 an'}, {v:4000,label:'Tier 4K',duration:'1 an'}, {v:6000,label:'Tier 6K',duration:'3 ans'} ];
@@ -31,7 +31,9 @@ export default function Mercato(){
   const guest = GUESTS.find(g=>g.id===st.selected) || GUESTS[0];
   const offers = st.offers[guest.id] || [];
   const contract = st.contracts[guest.id];
-  const windowEnd = useMemo(()=> Date.now() + 1000*60*60*24*46, []); // ~46 days mercato window
+  // Computed client-side only (after mount) to avoid a hydration mismatch against the statically prerendered HTML.
+  const [windowEnd, setWindowEnd] = useState(null);
+  useEffect(()=>{ setWindowEnd(Date.now() + 1000*60*60*24*46); },[]); // ~46 days mercato window
 
   function addOffer(){
     if(!st.newMedia.trim()) return;
@@ -57,7 +59,7 @@ export default function Mercato(){
 
     <section style={{...card(colors.intermediaire),display:'flex',flexWrap:'wrap',gap:24,alignItems:'center',justifyContent:'space-between',marginBottom:24}}>
       <div><Badge c={colors.intermediaire}>FENÊTRE OUVERTE</Badge><p style={{color:'#C9D4E4',margin:'8px 0 0'}}>Le Mercato ferme dans :</p></div>
-      <Countdown to={windowEnd} c={colors.intermediaire}/>
+      {windowEnd ? <Countdown to={windowEnd} c={colors.intermediaire}/> : <div style={{display:'flex',gap:8}}>{['J','H','M','S'].map(l=><div key={l} style={{textAlign:'center',padding:'10px 14px',borderRadius:14,background:'rgba(255,255,255,.06)',border:`1px solid ${colors.intermediaire}55`,minWidth:56}}><div style={{fontSize:22,fontWeight:900,color:colors.intermediaire}}>··</div><div style={{fontSize:10,color:'#94a3b8',letterSpacing:2}}>{l}</div></div>)}</div>}
     </section>
 
     <Stepper c={colors.intermediaire} active={stage} steps={STEPS} onStepClick={setStage} maxReached={maxReached}/>
