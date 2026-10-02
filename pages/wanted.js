@@ -2,7 +2,7 @@ import { page, card, button, colors, Badge, Masthead, Stepper, useLocal } from '
 
 const STATUSES = ['Open','Proposals','Shortlist','Selected','Contract','Paid','Done'];
 
-const DEFAULT_WANTED = { title:'Expert IA & société pour plateau TV', media:'LCI', budget:'1 800 €', deadline:'Demain 18:00', brief:'Nous cherchons un profil TV ready, FR/EN, capable de vulgariser les impacts de l’IA sur l’emploi et la démocratie.', status:'Open' };
+const DEFAULT_WANTED = { title:'Joueur de l’équipe de France, champion du monde de football, pour interview exclusive', media:'LCI', budget:'8 000 €', deadline:'Aujourd’hui 21:00', brief:'Recherche un joueur champion du monde disponible pour une interview exclusive en plateau, réaction à chaud après la victoire.', status:'Open' };
 
 export default function Wanted(){
   const [w,setW] = useLocal('tsaak:wanted', DEFAULT_WANTED);

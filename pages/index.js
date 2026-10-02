@@ -1,5 +1,5 @@
 import { PERSONAS } from '../components/RichDemoUI';
-import { talents } from '../data/talents';
+import { talents, realTalents } from '../data/talents';
 
 const NAV = [ ['/search','Talents'], ['#comment-ca-marche','Comment ça marche'], ['/select-caste','Castes'] ];
 
@@ -18,7 +18,7 @@ const FEATURES = [
   { title:'Mercato saisonnier', text:'2 mois par an : médias et guests se repositionnent, 3 paliers de contrat indexés au score.', href:'/mercato', color:'#FF2FD6', icon:'⇄' },
 ];
 
-const previewTalents = [talents[0], talents[4], talents[8], talents[13]];
+const previewTalents = [...(realTalents ? realTalents.slice(0,3) : []), talents[4]];
 
 export default function Home(){
   return <main style={s.page}>
@@ -37,7 +37,7 @@ export default function Home(){
 
     <section style={s.hero}>
       <span style={s.kicker}>TSAAK · EASY BOOKING ECOSYSTEM</span>
-      <h1 style={s.title}>Réservez le bon expert média.<br/>En quelques clics, pas en semaines.</h1>
+      <h1 style={s.title}>Bookez le meilleur talent pour vos besoins.<br/>En quelques clics, pas en semaines.</h1>
       <p style={s.sub}>TSAAK connecte rédactions, talents, intermédiaires, organisations et communautés dans un seul écosystème : recherche, scoring, contrats et paiement — sans friction, sans PDF perdu.</p>
       <div style={s.ctas}>
         <a style={s.primary} href="/search">Découvrir les talents →</a>

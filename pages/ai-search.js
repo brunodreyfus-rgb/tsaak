@@ -41,9 +41,9 @@ export default function AiSearch(){
 
   return <main style={page('media')}>
     <Masthead active='recherche'/>
-    <Badge c={colors.media}>BUSINESS CASE · ASSISTANT IA</Badge>
-    <h1 style={{fontSize:48,maxWidth:900}}>Recherche IA en conversation</h1>
-    <p style={{color:'#C9D4E4',fontSize:17,maxWidth:860}}>Le média décrit une idée éditoriale en langage naturel ; l’assistant clarifie puis propose une shortlist expliquée.</p>
+    <Badge c={colors.media}>BUSINESS CASE · LIVECHAT IA</Badge>
+    <h1 style={{fontSize:48,maxWidth:900}}>Recherche IA en livechat</h1>
+    <p style={{color:'#C9D4E4',fontSize:17,maxWidth:860}}>Le média décrit une idée éditoriale en langage naturel dans un livechat ; l’assistant clarifie puis propose une shortlist expliquée.</p>
 
     <section style={{...card(colors.media),maxWidth:820}}>
       <div style={{minHeight:120}}>

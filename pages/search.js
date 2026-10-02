@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { page, card, button, colors, Badge, Masthead, Chip, useLocal } from '../components/RichDemoUI';
-import { talents } from '../data/talents';
+import { talents, realTalents } from '../data/talents';
 
-const ALL_TAGS = ['AI & society','Middle East','energy security','climate transition','defense','cyber risk','public health','future of work','space economy','social movements','TV ready','Keynote ready','Verified','High demand'];
+const ALL_TAGS = ['AI & society','Middle East','energy security','climate transition','defense','cyber risk','public health','future of work','space economy','social movements','TV ready','Keynote ready','Verified','High demand','Talent TSAAK'];
+const allTalents = [...(realTalents || []), ...talents];
 
 export default function Search(){
   const [q,setQ] = useState('');
@@ -11,7 +12,7 @@ export default function Search(){
 
   const results = useMemo(()=>{
     const query = q.trim().toLowerCase();
-    return talents.filter(t=>{
+    return allTalents.filter(t=>{
       const hay = (t.name+' '+t.role+' '+t.country+' '+t.tags.join(' ')).toLowerCase();
       const matchQ = !query || hay.includes(query);
       const matchTag = !tag || t.tags.includes(tag);
