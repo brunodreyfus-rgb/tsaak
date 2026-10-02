@@ -16,6 +16,7 @@ export function ProofCard({p,c=colors.media}){return <div style={{...card(c),pad
 
 // ---- Extended kit (business-case simulations) --------------------------
 import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export const BIZ_CASES = [
   { key:'linkedin', label:'Connexion LinkedIn', href:'/talent-onboarding/self', c:colors.talent, icon:'in' },
@@ -113,3 +114,123 @@ export function useLocal(key, initial){
 export function euro(n){ return (Math.round(n*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'; }
 
 export function Avatar({src,name,role,big=false}){return <div style={{display:'flex',alignItems:'center',gap:14}}><img src={src} alt={name} style={{width:big?74:44,height:big?74:44,borderRadius:24,objectFit:'cover',border:'1px solid rgba(255,255,255,.18)'}}/><div><b>{name}</b>{role&&<div style={{color:'#94a3b8',fontSize:13}}>{role}</div>}</div></div>;}
+
+// ---- Mode Découverte : parcours guidés pas-à-pas par business case ----
+export const DISCOVERY_CASES = [
+  { key:'linkedin', label:'Connexion LinkedIn', c:colors.talent, steps:[
+    { label:'Importer le profil LinkedIn', href:'/talent-onboarding/self' },
+    { label:'Voir le profil généré', href:'/talent/jonathan-allouche' },
+  ]},
+  { key:'contract', label:'Contrat & paiement', c:colors.organisation, steps:[
+    { label:'Générer et signer le contrat', href:'/contract' },
+  ]},
+  { key:'score', label:'Calcul du score', c:colors.core, steps:[
+    { label:'Ajuster les facteurs du score', href:'/score-explained' },
+  ]},
+  { key:'mercato', label:'Mercato', c:colors.intermediaire, steps:[
+    { label:'Explorer le Mercato', href:'/mercato' },
+  ]},
+  { key:'search', label:'Recherche', c:colors.media, steps:[
+    { label:'Rechercher un talent', href:'/search' },
+    { label:'Ouvrir un profil Talent', href:'/talent/sarah-benali' },
+    { label:'Envoyer un message', href:'/messaging' },
+  ]},
+  { key:'shortlist', label:'Shortlist & multi-messaging', c:colors.media, steps:[
+    { label:'Consulter la shortlist', href:'/shortlist' },
+    { label:'Envoyer un message groupé', href:'/messaging' },
+  ]},
+  { key:'patchwork', label:'Patchwork', c:colors.intermediaire, steps:[
+    { label:'Découvrir les recommandations Push', href:'/patchwork' },
+  ]},
+  { key:'wanted', label:'Wanted → Propositions', c:colors.media, steps:[
+    { label:'Publier un Wanted', href:'/wanted' },
+    { label:"Répondre comme intermédiaire", href:'/intermediaires/respond' },
+    { label:'Voir les propositions reçues', href:'/media/proposals' },
+  ]},
+  { key:'ai-search', label:'Recherche IA (chat)', c:colors.media, steps:[
+    { label:"Discuter avec l'IA", href:'/ai-search' },
+    { label:'Ouvrir la shortlist générée', href:'/shortlist' },
+  ]},
+  { key:'help-me', label:'Help Me urgent', c:colors.organisation, steps:[
+    { label:'Publier un besoin urgent', href:'/help-me' },
+  ]},
+  { key:'talent-entry', label:'3 entrées Talent', c:colors.talent, steps:[
+    { label:"Choisir un parcours d'entrée", href:'/talent-onboarding' },
+    { label:'Compléter le profil en self-service', href:'/talent-onboarding/self' },
+  ]},
+  { key:'talent-profile', label:'Profil Talent riche', c:colors.talent, steps:[
+    { label:'Explorer un profil Talent complet', href:'/talent/sarah-benali' },
+    { label:'Contacter ce talent', href:'/messaging' },
+  ]},
+];
+
+function StepIcon({ done, active, c }){
+  return <span style={{width:22,height:22,borderRadius:'50%',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:800,
+    background: done ? c : active ? 'transparent' : 'rgba(255,255,255,.06)',
+    border: `1.5px solid ${done ? c : active ? c : 'rgba(255,255,255,.22)'}`,
+    color: done ? '#03040A' : active ? c : '#7A8699'}}>
+    {done ? <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 13l5 5L19 7" stroke="#03040A" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/></svg> : null}
+  </span>;
+}
+
+export function DiscoveryPanel(){
+  const router = useRouter();
+  const [open, setOpen] = useLocal('tsaak:discovery:open', true);
+  const [sel, setSel] = useLocal('tsaak:discovery:case', null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(()=>{ setMounted(true); }, []);
+  if (!mounted) return null;
+  const current = DISCOVERY_CASES.find(c => c.key === sel);
+  const path = router.asPath ? router.asPath.split('?')[0].split('#')[0] : '';
+  const stepIdx = current ? current.steps.findIndex(s => s.href === path) : -1;
+
+  if (!open) {
+    return <div onClick={()=>setOpen(true)} style={{position:'fixed',right:0,top:'50%',transform:'translateY(-50%)',zIndex:999,cursor:'pointer',
+      background:'linear-gradient(135deg,#F6FF0022,#ffffff10)',border:'1px solid #F6FF0066',borderRight:'none',borderRadius:'14px 0 0 14px',
+      padding:'16px 10px',color:'#F6FF00',fontWeight:800,fontSize:12,letterSpacing:1,writingMode:'vertical-rl',boxShadow:'0 0 24px rgba(246,255,0,.18)'}}>
+      ● MODE DÉCOUVERTE
+    </div>;
+  }
+
+  return <div style={{position:'fixed',right:16,top:16,bottom:16,width:300,zIndex:999,overflowY:'auto',
+    background:'linear-gradient(180deg,#0A0E1Cee,#060911ee)',border:'1px solid rgba(255,255,255,.12)',borderRadius:22,
+    padding:18,boxShadow:'0 20px 60px rgba(0,0,0,.55)',backdropFilter:'blur(16px)'}}>
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:4}}>
+      <span style={{fontSize:11,fontWeight:800,letterSpacing:1.5,color:'#F6FF00'}}>● MODE DÉCOUVERTE</span>
+      <span onClick={()=>setOpen(false)} style={{cursor:'pointer',color:'#7A8699',fontSize:18,lineHeight:1,padding:'2px 6px'}}>×</span>
+    </div>
+    <p style={{fontSize:12,color:'#7A8699',margin:'6px 0 14px',lineHeight:1.4}}>Choisissez un business case, suivez-le pas à pas.</p>
+
+    {!current && <div style={{display:'grid',gap:8}}>
+      {DISCOVERY_CASES.map(c => <div key={c.key} onClick={()=>{ setSel(c.key); router.push(c.steps[0].href); }}
+        style={{cursor:'pointer',padding:'10px 12px',borderRadius:12,background:'rgba(255,255,255,.04)',border:`1px solid ${c.c}33`,
+        display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}>
+        <span style={{fontSize:13,fontWeight:700,color:'#fff'}}>{c.label}</span>
+        <span style={{fontSize:10,color:c.c,fontWeight:800}}>{c.steps.length} étape{c.steps.length>1?'s':''}</span>
+      </div>)}
+    </div>}
+
+    {current && <div>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+        <b style={{fontSize:15,color:current.c}}>{current.label}</b>
+        <span onClick={()=>setSel(null)} style={{cursor:'pointer',fontSize:11,color:'#7A8699',fontWeight:700,textDecoration:'underline'}}>changer</span>
+      </div>
+      <div style={{display:'grid',gap:4}}>
+        {current.steps.map((s,i) => {
+          const isActive = i === stepIdx;
+          const isDone = stepIdx >= 0 && i < stepIdx;
+          return <a key={s.href} href={s.href} style={{textDecoration:'none',display:'flex',alignItems:'center',gap:10,padding:'9px 8px',borderRadius:10,
+            background:isActive?`${current.c}18`:'transparent'}}>
+            <StepIcon done={isDone} active={isActive} c={current.c}/>
+            <span style={{fontSize:12.5,color:isActive?'#fff':isDone?'#C9D4E4':'#8B97A8',fontWeight:isActive?800:600}}>{s.label}</span>
+          </a>;
+        })}
+      </div>
+      <div style={{display:'flex',gap:8,marginTop:14}}>
+        {stepIdx > 0 && <a href={current.steps[stepIdx-1].href} style={{...ghost(current.c),flex:1,padding:'9px 10px',fontSize:12,boxShadow:'none'}}>← Précédent</a>}
+        {stepIdx >= 0 && stepIdx < current.steps.length-1 && <a href={current.steps[stepIdx+1].href} style={{...button(current.c),flex:1,padding:'9px 10px',fontSize:12}}>Suivant →</a>}
+        {stepIdx === current.steps.length-1 && <span style={{flex:1,textAlign:'center',fontSize:11,color:'#7A8699',padding:'9px 0'}}>Parcours terminé ✓</span>}
+      </div>
+    </div>}
+  </div>;
+}
