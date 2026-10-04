@@ -1,4 +1,4 @@
-import { page, card, button, colors, Badge, Progress, Masthead, PERSONAS } from '../components/RichDemoUI';
+import { page, card, colors, Badge, Masthead, PERSONAS, StatCard, PerfCard, ActivityCard } from '../components/RichDemoUI';
 
 export default function Intermediaires(){
   const c = colors.intermediaire;
@@ -10,11 +10,19 @@ export default function Intermediaires(){
       <img src={me.photo} style={{width:64,height:64,borderRadius:20,objectFit:'cover',border:`1px solid ${c}55`}}/>
     </div>
 
-    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:24}}>
-      <Stat c={c} label='Wanted ouverts' value='5'/>
-      <Stat c={c} label='Deals acceptés' value='2'/>
-      <Stat c={colors.core} label='Commission cumulée' value='4 200 €'/>
-      <Stat c={c} label='Guests en Mercato' value='3'/>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:18}}>
+      <StatCard c={c} label='Wanted ouverts' value='5'/>
+      <StatCard c={c} label='Deals acceptés' value='2' delta='+1 cette semaine'/>
+      <StatCard c={colors.core} label='Commission cumulée' value='4 200 €' delta='+650 €'/>
+      <StatCard c={c} label='Guests en Mercato' value='3'/>
+    </div>
+
+    <div style={{display:'grid',gridTemplateColumns:'1.1fr 1.4fr',gap:16,marginBottom:26,alignItems:'stretch'}}>
+      <PerfCard c={c} title='Commission cumulée' value='4 200 €' data={[1800,2300,2750,3100,3600,3950,4200]} caption='Suivez vos commissions passer de Pending à Paid.'/>
+      <ActivityCard c={c} title='Wanted à pourvoir' badge='5 ouverts' rows={[
+        { icon:'🔎', title:'Expert cybersécurité — table ronde Web3', subtitle:'Proposez un talent TSAAK ou externe', right:'Ouvert', rightColor:c },
+        { icon:'⇄', title:'Guest Tier 4K — négociation Mercato', subtitle:'Palier proposé : 4 200 €/mois', right:'En cours', rightColor:colors.core },
+      ]} cta={{ href:'/intermediaires/respond', label:'Répondre à un Wanted' }}/>
     </div>
 
     <h2>Business cases à tester depuis cette caste</h2>
@@ -25,15 +33,6 @@ export default function Intermediaires(){
       <Case c={colors.talent} href='/talent-onboarding/intermediaire' title='Inviter un talent externe' text='Simulez l’invitation d’un profil non-inscrit.'/>
       <Case c={colors.core} href='/score-explained' title='Score TSAAK' text='Le score détermine la valeur de vos placements.'/>
     </div>
-
-    <section style={card(c)}>
-      <h3>Commission cockpit</h3>
-      <Progress label='Commissions payables' value='42%' c={c}/>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:12}}>
-        {['Wanted actifs · 4','Propositions · 9','Acceptés · 2','Commission · 4 200 €'].map(x=><div key={x} style={{padding:14,borderRadius:16,background:'rgba(255,255,255,.06)',fontSize:13}}><b>{x}</b></div>)}
-      </div>
-    </section>
   </main>;
 }
-function Stat({c,label,value}){return <div style={{padding:18,borderRadius:18,background:'rgba(255,255,255,.05)',border:`1px solid ${c}44`}}><div style={{fontSize:12,color:'#94a3b8'}}>{label}</div><div style={{fontSize:28,fontWeight:900,color:c}}>{value}</div></div>;}
 function Case({c,href,title,text}){return <a href={href} style={{...card(c),textDecoration:'none',color:'#fff',padding:18}}><Badge c={c}>{title}</Badge><p style={{color:'#C9D4E4',margin:'8px 0 0',fontSize:13}}>{text}</p></a>;}

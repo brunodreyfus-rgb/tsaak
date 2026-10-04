@@ -14,6 +14,69 @@ export function Badge({children,c=colors.media}){return <span style={{fontSize:1
 export function Progress({label,value,c=colors.media}){return <div style={{margin:'14px 0'}}><div style={{display:'flex',justifyContent:'space-between',color:'#C9D4E4',fontSize:13}}><span>{label}</span><b>{value}</b></div><div style={{height:9,borderRadius:99,background:'#ffffff12',overflow:'hidden',marginTop:7}}><div style={{height:'100%',width:value,background:`linear-gradient(90deg,${c},#F6FF00)`,boxShadow:`0 0 18px ${c}`}}/></div></div>}
 export function ProofCard({p,c=colors.media}){return <div style={{...card(c),padding:0,overflow:'hidden'}}><div style={{height:130,backgroundImage:`linear-gradient(180deg,transparent,#02030A), url(${p.thumbnail})`,backgroundSize:'cover',backgroundPosition:'center'}}/><div style={{padding:18}}><Badge c={c}>{p.icon} {p.type}</Badge><h3 style={{margin:'14px 0 6px'}}>{p.title}</h3><p style={{color:'#9FACBF',margin:0}}>{p.source} · {p.date}</p><p style={{color:c,fontWeight:800}}>{p.metric}</p><p style={{color:'#C9D4E4'}}>{p.note}</p></div></div>}
 
+// ---- Dashboard kit (sparkline + activity rows, used by the 5 caste cockpits) ----
+export function Sparkline({data, c=colors.media, w=280, h=64, strokeWidth=2.6}){
+  if(!data || data.length<2) return null;
+  const min=Math.min(...data), max=Math.max(...data), range=(max-min)||1;
+  const stepX=w/(data.length-1);
+  const pts=data.map((v,i)=>[i*stepX, h-((v-min)/range)*h*0.78-h*0.1]);
+  const line=pts.map((p,i)=>(i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const area=line+` L${w},${h} L0,${h} Z`;
+  const gid='sgrad-'+c.replace('#','');
+  return <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{display:'block',overflow:'visible',maxWidth:'100%'}} preserveAspectRatio='none'>
+    <defs><linearGradient id={gid} x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stopColor={c} stopOpacity='0.38'/><stop offset='100%' stopColor={c} stopOpacity='0'/></linearGradient></defs>
+    <path d={area} fill={`url(#${gid})`} stroke='none'/>
+    <path d={line} fill='none' stroke={c} strokeWidth={strokeWidth} strokeLinecap='round' strokeLinejoin='round' style={{filter:`drop-shadow(0 0 5px ${c}aa)`}}/>
+    <circle cx={pts[pts.length-1][0]} cy={pts[pts.length-1][1]} r={4.5} fill={c} style={{filter:`drop-shadow(0 0 7px ${c})`}}/>
+  </svg>;
+}
+
+export function StatCard({c=colors.media,label,value,delta,deltaUp=true}){
+  return <div style={{padding:18,borderRadius:18,background:'rgba(255,255,255,.05)',border:`1px solid ${c}44`}}>
+    <div style={{fontSize:12,color:'#94a3b8'}}>{label}</div>
+    <div style={{display:'flex',alignItems:'baseline',gap:8,marginTop:3,flexWrap:'wrap'}}>
+      <div style={{fontSize:28,fontWeight:900,color:c}}>{value}</div>
+      {delta && <span style={{fontSize:12,fontWeight:800,color:deltaUp?'#7CFFB2':'#FF8A8A'}}>{deltaUp?'↗':'↘'} {delta}</span>}
+    </div>
+  </div>;
+}
+
+export function PerfCard({c=colors.media,title,value,data,caption}){
+  return <section style={{...card(c),display:'flex',flexDirection:'column',gap:4}}>
+    <div style={{color:c,fontWeight:900,letterSpacing:1.5,fontSize:11,textTransform:'uppercase'}}>{title}</div>
+    <div style={{fontSize:30,fontWeight:900,margin:'2px 0 10px'}}>{value}</div>
+    <Sparkline data={data} c={c}/>
+    {caption && <p style={{color:'#8CA0B8',fontSize:12,margin:'10px 0 0'}}>{caption}</p>}
+  </section>;
+}
+
+export function DashRow({avatar,icon,title,subtitle,right,rightSub,rightColor,badge,badgeColor,c=colors.media}){
+  return <div style={{display:'flex',alignItems:'center',gap:13,padding:'11px 2px',borderBottom:'1px solid rgba(255,255,255,.08)'}}>
+    {avatar ? <img src={avatar} style={{width:42,height:42,borderRadius:12,objectFit:'cover',border:`1px solid ${c}55`,flexShrink:0}}/>
+      : icon ? <span style={{width:42,height:42,borderRadius:12,display:'grid',placeItems:'center',background:`${c}18`,border:`1px solid ${c}55`,fontSize:17,flexShrink:0}}>{icon}</span> : null}
+    <div style={{flex:1,minWidth:0}}>
+      <div style={{fontWeight:800,fontSize:14,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{title}</div>
+      {subtitle && <div style={{color:'#8CA0B8',fontSize:12,marginTop:2,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{subtitle}</div>}
+    </div>
+    {badge && <span style={{fontSize:10,fontWeight:800,padding:'5px 9px',borderRadius:999,color:badgeColor||c,border:`1px solid ${badgeColor||c}66`,background:`${badgeColor||c}14`,flexShrink:0}}>{badge}</span>}
+    {right && <div style={{textAlign:'right',flexShrink:0,marginLeft:4}}>
+      <div style={{fontWeight:900,fontSize:14,color:rightColor||c}}>{right}</div>
+      {rightSub && <div style={{color:'#8CA0B8',fontSize:11}}>{rightSub}</div>}
+    </div>}
+  </div>;
+}
+
+export function ActivityCard({c=colors.media,title,badge,rows,cta}){
+  return <section style={card(c)}>
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
+      <div style={{color:c,fontWeight:900,letterSpacing:1.5,fontSize:11,textTransform:'uppercase'}}>{title}</div>
+      {badge && <Badge c={c}>{badge}</Badge>}
+    </div>
+    <div>{rows.map((r,i)=><DashRow key={i} c={c} {...r}/>)}</div>
+    {cta && <a href={cta.href} style={{...button(c),marginTop:16,width:'100%'}}>{cta.label}</a>}
+  </section>;
+}
+
 // ---- Extended kit (business-case simulations) --------------------------
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -94,7 +157,7 @@ export function Stepper({steps,active,c=colors.media,onStepClick,maxReached}){
 
 export const PERSONAS = [
   { key:'media', name:'Bruno', role:'Media · Senior Producer, France 24', href:'/media', c:colors.media, photo:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&auto=format&fit=crop' },
-  { key:'talent', name:'Jonathan', role:'Talent · Expert cybersécurité', href:'/talent', c:colors.talent, photo:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=240&auto=format&fit=crop' },
+  { key:'talent', name:'Sarah Benali', role:'Talent · Analyste Géopolitique', href:'/talent', c:colors.talent, photo:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop' },
   { key:'intermediaire', name:'Jean', role:'Intermédiaire · Booker international', href:'/intermediaires', c:colors.intermediaire, photo:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=240&auto=format&fit=crop' },
   { key:'organisation', name:'Pascale', role:'Organisation · Directrice événementiel', href:'/organisation', c:colors.organisation, photo:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=240&auto=format&fit=crop' },
   { key:'communaute', name:'Jessica', role:'Communauté · FanTSAak', href:'/communaute', c:colors.communaute, photo:'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=240&auto=format&fit=crop' },
@@ -119,7 +182,7 @@ export function Avatar({src,name,role,big=false}){return <div style={{display:'f
 export const DISCOVERY_CASES = [
   { key:'linkedin', label:'Connexion LinkedIn', c:colors.talent, steps:[
     { label:'Importer le profil LinkedIn', href:'/talent-onboarding/self' },
-    { label:'Voir le profil généré', href:'/talent/jonathan-allouche' },
+    { label:'Voir le profil généré', href:'/talent/sarah-benali' },
   ]},
   { key:'contract', label:'Contrat & paiement', c:colors.organisation, steps:[
     { label:'Générer et signer le contrat', href:'/contract' },

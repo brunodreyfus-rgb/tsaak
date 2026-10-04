@@ -24,6 +24,15 @@ export const talents = names.map((name,i)=>({
   tsaakBackground:['Profile verified by TSAAK', 'Fast response history', 'Recommended by 2 intermediaries']
 }));
 
+// Sarah Benali est la Talent "porte d'entrée" de la démo (persona de connexion + parcours
+// Connexion LinkedIn) : photo réelle et score alignés sur ce qui est affiché après connexion,
+// pour que ce soit la même personne du login jusqu'au profil complet.
+const _sarah = talents.find(t=>t.id==='sarah-benali');
+if (_sarah) {
+  _sarah.photo = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop';
+  _sarah.score = 94;
+}
+
 // Profils réels — exemples concrets utilisés dans le deck investisseurs.
 // Générés à partir d'informations publiques uniquement (mêmes principes que le générateur
 // de profil outreach) : pas de photo réelle utilisée (avatar généré), pas de statistique

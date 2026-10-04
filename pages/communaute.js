@@ -1,4 +1,4 @@
-import { page, card, button, colors, Badge, Progress, Masthead, PERSONAS } from '../components/RichDemoUI';
+import { page, card, colors, Badge, Masthead, PERSONAS, StatCard, PerfCard, ActivityCard } from '../components/RichDemoUI';
 
 export default function Communaute(){
   const c = colors.communaute;
@@ -10,11 +10,19 @@ export default function Communaute(){
       <img src={me.photo} style={{width:64,height:64,borderRadius:20,objectFit:'cover',border:`1px solid ${c}55`}}/>
     </div>
 
-    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:24}}>
-      <Stat c={c} label='Talents suivis' value='28'/>
-      <Stat c={c} label='Recommandations utiles' value='6'/>
-      <Stat c={colors.core} label='Indice FanTSAak' value='81%'/>
-      <Stat c={c} label='Guests investis (Mercato)' value='2'/>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:18}}>
+      <StatCard c={c} label='Talents suivis' value='28'/>
+      <StatCard c={c} label='Recommandations utiles' value='6' delta='+2 cette semaine'/>
+      <StatCard c={colors.core} label='Indice FanTSAak' value='81%'/>
+      <StatCard c={c} label='Guests investis (Mercato)' value='2'/>
+    </div>
+
+    <div style={{display:'grid',gridTemplateColumns:'1.1fr 1.4fr',gap:16,marginBottom:26,alignItems:'stretch'}}>
+      <PerfCard c={c} title='Indice FanTSAak' value='81%' data={[61,66,70,73,76,79,81]} caption='Poids de vos signaux dans le score des Talents que vous suivez.'/>
+      <ActivityCard c={c} title='Signaux récents' badge='6 cette semaine' rows={[
+        { avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop', title:'Recommandation — Sarah Benali', subtitle:'Partagée à 340 abonnés', right:'+4 pts', rightColor:colors.core },
+        { icon:'💸', title:'Investissement Kaastbase — Guest Tier 2K', subtitle:'Mise actuelle : 180 €', right:'Actif', rightColor:c },
+      ]} cta={{ href:'/mercato', label:'Investir via la Kaastbase' }}/>
     </div>
 
     <h2>Business cases à tester depuis cette caste</h2>
@@ -24,14 +32,6 @@ export default function Communaute(){
       <Case c={colors.talent} href='/patchwork' title='Patchwork' text='Explorez les suggestions passives poussées aux médias.'/>
       <Case c={colors.organisation} href='/contract' title='Suivre un contrat' text='Suivez le paiement d’un Guest recommandé.'/>
     </div>
-
-    <section style={card(c)}>
-      <div style={{color:c,fontWeight:900,letterSpacing:2,fontSize:12}}>FANTSAAK / KAASTBASE</div>
-      <h2 style={{fontSize:28,margin:'8px 0'}}>Influencez la désirabilité des Talents.</h2>
-      <Progress label='Poids de vos signaux ce mois-ci' value='81%' c={c}/>
-      <a style={button(c)} href='/mercato'>Investir via la Kaastbase</a>
-    </section>
   </main>;
 }
-function Stat({c,label,value}){return <div style={{padding:18,borderRadius:18,background:'rgba(255,255,255,.05)',border:`1px solid ${c}44`}}><div style={{fontSize:12,color:'#94a3b8'}}>{label}</div><div style={{fontSize:28,fontWeight:900,color:c}}>{value}</div></div>;}
 function Case({c,href,title,text}){return <a href={href} style={{...card(c),textDecoration:'none',color:'#fff',padding:18}}><Badge c={c}>{title}</Badge><p style={{color:'#C9D4E4',margin:'8px 0 0',fontSize:13}}>{text}</p></a>;}

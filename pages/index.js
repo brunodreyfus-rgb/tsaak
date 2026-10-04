@@ -49,6 +49,9 @@ export default function Home(){
         <Metric n="<2h" t="délai moyen Help Me"/>
         <Metric n="100%" t="score transparent"/>
       </div>
+      <div style={s.conceptFrame}>
+        <img src="/images/galaxy-concept.jpg" alt="Cinq castes, un Talent au centre — la galaxie TSAAK" style={s.conceptImg}/>
+      </div>
     </section>
 
     <section style={s.section}>
@@ -139,7 +142,7 @@ const s={
  navGhost:{padding:'10px 16px',borderRadius:999,color:'#C6D2E3',border:'1px solid #ffffff22',textDecoration:'none',fontSize:13},
  navPrimary:{padding:'10px 18px',borderRadius:999,color:'#031018',background:'linear-gradient(90deg,#00D5FF,#7CFFB2)',textDecoration:'none',fontWeight:800,fontSize:13},
 
- hero:{position:'relative',zIndex:1,maxWidth:900,padding:'clamp(50px,8vw,110px) clamp(18px,4vw,70px) 30px'},
+ hero:{position:'relative',zIndex:1,maxWidth:1180,padding:'clamp(50px,8vw,110px) clamp(18px,4vw,70px) 30px'},
  kicker:{color:'#8CEEFF',letterSpacing:3,textTransform:'uppercase',fontSize:13,fontWeight:800},
  title:{fontSize:'clamp(38px,6.4vw,74px)',lineHeight:1.03,margin:'18px 0',letterSpacing:-1.5,fontWeight:800},
  sub:{color:'#B7C7D8',fontSize:19,lineHeight:1.6,maxWidth:640},
@@ -148,6 +151,9 @@ const s={
  secondary:{padding:'16px 24px',borderRadius:16,color:'white',border:'1px solid #ffffff33',background:'#ffffff0c',textDecoration:'none',fontWeight:700},
  metrics:{display:'flex',gap:12,marginTop:38,flexWrap:'wrap'},
  metric:{padding:'14px 18px',border:'1px solid #ffffff18',borderRadius:18,background:'#ffffff09',display:'grid'},
+
+ conceptFrame:{marginTop:46,borderRadius:28,overflow:'hidden',border:'1px solid #ffffff1c',boxShadow:'0 30px 90px rgba(0,0,0,.45), 0 0 60px rgba(0,213,255,.08)'},
+ conceptImg:{display:'block',width:'100%',height:'auto'},
 
  section:{position:'relative',zIndex:1,padding:'50px clamp(18px,4vw,70px)',borderTop:'1px solid #ffffff0c'},
  sectionHead:{marginBottom:28,maxWidth:720},

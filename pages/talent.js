@@ -1,4 +1,4 @@
-import { page, card, button, colors, Badge, Progress, Masthead, PERSONAS } from '../components/RichDemoUI';
+import { page, card, colors, Badge, Masthead, PERSONAS, StatCard, PerfCard, ActivityCard } from '../components/RichDemoUI';
 
 export default function Talent(){
   const c = colors.talent;
@@ -10,11 +10,19 @@ export default function Talent(){
       <img src={me.photo} style={{width:64,height:64,borderRadius:20,objectFit:'cover',border:`1px solid ${c}55`}}/>
     </div>
 
-    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:24}}>
-      <Stat c={c} label='Score TSAAK' value='94'/>
-      <Stat c={c} label='Interventions' value='18'/>
-      <Stat c={c} label='Contrats signés' value='7'/>
-      <Stat c={colors.core} label='Revenus cumulés' value='18,4K€'/>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginBottom:18}}>
+      <StatCard c={c} label='Score TSAAK' value='94' delta='+2 pts'/>
+      <StatCard c={c} label='Interventions' value='18'/>
+      <StatCard c={c} label='Contrats signés' value='7'/>
+      <StatCard c={colors.core} label='Revenus cumulés' value='18,4K€' delta='+1,8K€'/>
+    </div>
+
+    <div style={{display:'grid',gridTemplateColumns:'1.1fr 1.4fr',gap:16,marginBottom:26,alignItems:'stretch'}}>
+      <PerfCard c={c} title='Score TSAAK — historique' value='94' data={[83,86,88,90,91,93,94]} caption="Recalculé à chaque nouvelle preuve média retrouvée par l'IA."/>
+      <ActivityCard c={c} title='Demandes entrantes' badge='2 nouvelles' rows={[
+        { icon:'📺', title:'France 24 — segment live sur IA & société', subtitle:'Étape du deal : en négociation', right:'60%', rightSub:'Avancement' },
+        { icon:'🎤', title:'LCI — intervention plateau demain', subtitle:'Fee proposé 1 400 €', right:'Nouveau', rightColor:colors.core },
+      ]} cta={{ href:'/messaging', label:'Répondre aux demandes' }}/>
     </div>
 
     <h2>Business cases à tester depuis cette caste</h2>
@@ -26,14 +34,6 @@ export default function Talent(){
       <Case c={c} href='/messaging' title='Messagerie' text='Répondez aux demandes entrantes.'/>
       <Case c={colors.talent} href='/talent/sarah-benali' title='Mon profil' text='Voyez le profil enrichi tel qu’un média le voit.'/>
     </div>
-
-    <section style={card(c)}>
-      <div style={{color:c,fontWeight:900,letterSpacing:2,fontSize:12}}>DEMANDE ENTRANTE</div>
-      <h2 style={{fontSize:28,margin:'8px 0'}}>France 24 — segment live sur IA & société</h2>
-      <Progress label='Étape du deal' value='60%' c={c}/>
-      <a href='/messaging' style={button(c)}>Accepter & répondre</a>
-    </section>
   </main>;
 }
-function Stat({c,label,value}){return <div style={{padding:18,borderRadius:18,background:'rgba(255,255,255,.05)',border:`1px solid ${c}44`}}><div style={{fontSize:12,color:'#94a3b8'}}>{label}</div><div style={{fontSize:28,fontWeight:900,color:c}}>{value}</div></div>;}
 function Case({c,href,title,text}){return <a href={href} style={{...card(c),textDecoration:'none',color:'#fff',padding:18}}><Badge c={c}>{title}</Badge><p style={{color:'#C9D4E4',margin:'8px 0 0',fontSize:13}}>{text}</p></a>;}
