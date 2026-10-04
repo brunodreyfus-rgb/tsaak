@@ -1,9 +1,9 @@
 export const mediaProofs = [
-  { type:'TV', icon:'▶', title:'France 24 · Live debate', source:'YouTube / TV channel', date:'May 2026', metric:'1.2M views', thumbnail:'https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=900&q=80', note:'Strong clarity under pressure, excellent broadcast pacing.' },
-  { type:'Podcast', icon:'🎙', title:'AI & Society Weekly', source:'Podcast · 42 min', date:'Apr 2026', metric:'Top 5% episode', thumbnail:'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80', note:'Long-form explanation, accessible and human.' },
-  { type:'Article', icon:'✒', title:'Tribune · Le Monde / Opinion', source:'Daily newspaper', date:'Mar 2026', metric:'Shared 8.4k times', thumbnail:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80', note:'Clear point of view, strong editorial authority.' },
-  { type:'Seminar', icon:'◆', title:'Global Policy Forum', source:'Seminar / keynote', date:'Feb 2026', metric:'600 attendees', thumbnail:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80', note:'High credibility for corporate and institutional audiences.' },
-  { type:'Panel', icon:'◉', title:'Tech & Democracy Summit', source:'Conference panel', date:'Jan 2026', metric:'92/100 audience score', thumbnail:'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80', note:'Good interaction with contradictory viewpoints.' }
+  { type:'TV', icon:'▶', title:'France 24 · Live debate', source:'YouTube / TV channel', date:'May 2026', metric:'1.2M views', thumbnail:'/avatars/media-tv.png', note:'Strong clarity under pressure, excellent broadcast pacing.' },
+  { type:'Podcast', icon:'🎙', title:'AI & Society Weekly', source:'Podcast · 42 min', date:'Apr 2026', metric:'Top 5% episode', thumbnail:'/avatars/media-podcast.png', note:'Long-form explanation, accessible and human.' },
+  { type:'Article', icon:'✒', title:'Tribune · Le Monde / Opinion', source:'Daily newspaper', date:'Mar 2026', metric:'Shared 8.4k times', thumbnail:'/avatars/media-article.png', note:'Clear point of view, strong editorial authority.' },
+  { type:'Seminar', icon:'◆', title:'Global Policy Forum', source:'Seminar / keynote', date:'Feb 2026', metric:'600 attendees', thumbnail:'/avatars/media-seminar.png', note:'High credibility for corporate and institutional audiences.' },
+  { type:'Panel', icon:'◉', title:'Tech & Democracy Summit', source:'Conference panel', date:'Jan 2026', metric:'92/100 audience score', thumbnail:'/avatars/media-panel.png', note:'Good interaction with contradictory viewpoints.' }
 ];
 
 export const onboardingPaths = [
