@@ -36,21 +36,25 @@ export default function Home(){
     </nav>
 
     <section style={s.hero}>
-      <span style={s.kicker}>TSAAK · EASY BOOKING ECOSYSTEM</span>
-      <h1 style={s.title}>Bookez le meilleur talent pour vos besoins.<br/>En quelques clics, pas en semaines.</h1>
-      <p style={s.sub}>TSAAK connecte rédactions, talents, intermédiaires, organisations et communautés dans un seul écosystème : recherche, scoring, contrats et paiement — sans friction, sans PDF perdu.</p>
-      <div style={s.ctas}>
-        <a style={s.primary} href="/search">Découvrir les talents →</a>
-        <a style={s.secondary} href="/select-caste">Rejoindre TSAAK</a>
+      <div style={s.heroGrid}>
+        <div style={s.heroText}>
+          <span style={s.kicker}>TSAAK · EASY BOOKING ECOSYSTEM</span>
+          <h1 style={s.title}>Bookez le meilleur talent pour vos besoins.<br/>En quelques clics, pas en semaines.</h1>
+          <p style={s.sub}>TSAAK connecte rédactions, talents, intermédiaires, organisations et communautés dans un seul écosystème : recherche, scoring, contrats et paiement — sans friction, sans PDF perdu.</p>
+          <div style={s.ctas}>
+            <a style={s.primary} href="/search">Découvrir les talents →</a>
+            <a style={s.secondary} href="/select-caste">Rejoindre TSAAK</a>
+          </div>
+        </div>
+        <a href="/select-caste" style={s.conceptFrame} title="Cinq castes, un Talent au centre — la galaxie TSAAK">
+          <img src="/images/galaxy-concept.jpg" alt="Cinq castes, un Talent au centre — la galaxie TSAAK" style={s.conceptImg}/>
+        </a>
       </div>
       <div style={s.metrics}>
         <Metric n="50" t="talents vérifiés"/>
         <Metric n="5" t="castes connectées"/>
         <Metric n="<2h" t="délai moyen Help Me"/>
         <Metric n="100%" t="score transparent"/>
-      </div>
-      <div style={s.conceptFrame}>
-        <img src="/images/galaxy-concept.jpg" alt="Cinq castes, un Talent au centre — la galaxie TSAAK" style={s.conceptImg}/>
       </div>
     </section>
 
@@ -143,16 +147,18 @@ const s={
  navPrimary:{padding:'10px 18px',borderRadius:999,color:'#031018',background:'linear-gradient(90deg,#00D5FF,#7CFFB2)',textDecoration:'none',fontWeight:800,fontSize:13},
 
  hero:{position:'relative',zIndex:1,maxWidth:1180,padding:'clamp(50px,8vw,110px) clamp(18px,4vw,70px) 30px'},
+ heroGrid:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(340px,1fr))',gap:'32px 44px',alignItems:'center'},
+ heroText:{minWidth:0},
  kicker:{color:'#8CEEFF',letterSpacing:3,textTransform:'uppercase',fontSize:13,fontWeight:800},
- title:{fontSize:'clamp(38px,6.4vw,74px)',lineHeight:1.03,margin:'18px 0',letterSpacing:-1.5,fontWeight:800},
- sub:{color:'#B7C7D8',fontSize:19,lineHeight:1.6,maxWidth:640},
- ctas:{display:'flex',gap:14,flexWrap:'wrap',marginTop:30},
+ title:{fontSize:'clamp(32px,4.6vw,56px)',lineHeight:1.05,margin:'16px 0',letterSpacing:-1,fontWeight:800},
+ sub:{color:'#B7C7D8',fontSize:17,lineHeight:1.6,maxWidth:560},
+ ctas:{display:'flex',gap:14,flexWrap:'wrap',marginTop:28},
  primary:{padding:'16px 24px',borderRadius:16,color:'#031018',background:'linear-gradient(90deg,#00D5FF,#7CFFB2)',textDecoration:'none',fontWeight:800},
  secondary:{padding:'16px 24px',borderRadius:16,color:'white',border:'1px solid #ffffff33',background:'#ffffff0c',textDecoration:'none',fontWeight:700},
- metrics:{display:'flex',gap:12,marginTop:38,flexWrap:'wrap'},
+ metrics:{display:'flex',gap:12,marginTop:40,flexWrap:'wrap'},
  metric:{padding:'14px 18px',border:'1px solid #ffffff18',borderRadius:18,background:'#ffffff09',display:'grid'},
 
- conceptFrame:{marginTop:46,borderRadius:28,overflow:'hidden',border:'1px solid #ffffff1c',boxShadow:'0 30px 90px rgba(0,0,0,.45), 0 0 60px rgba(0,213,255,.08)'},
+ conceptFrame:{display:'block',justifySelf:'end',width:'100%',maxWidth:420,borderRadius:20,overflow:'hidden',border:'1px solid #ffffff1c',boxShadow:'0 20px 50px rgba(0,0,0,.4), 0 0 40px rgba(0,213,255,.10)',textDecoration:'none'},
  conceptImg:{display:'block',width:'100%',height:'auto'},
 
  section:{position:'relative',zIndex:1,padding:'50px clamp(18px,4vw,70px)',borderTop:'1px solid #ffffff0c'},

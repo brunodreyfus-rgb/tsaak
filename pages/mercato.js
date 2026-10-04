@@ -7,7 +7,7 @@ const GUESTS = [
   { id:'g1', name:'Noam Weiss', role:'IA, cybersécurité & deepfake', score:93, photo:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&auto=format&fit=crop' },
   { id:'g2', name:'Lina Moreau', role:'Climat & énergie', score:91, photo:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop' },
   { id:'g3', name:'Sarah Benali', role:'Géopolitique Moyen-Orient', score:94, photo:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop' },
-  { id:'g4', name:'Marc Delcourt', role:'Économie & inflation', score:89, photo:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop' },
+  { id:'g4', name:'Marc Delcourt', role:'Économie & inflation', score:89, photo:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&auto=format&fit=crop' },
   { id:'g5', name:'Colonel Hugo Martin', role:'Défense & stratégie', score:87, photo:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop' },
   { id:'g6', name:'Dr Inès Carvalho', role:'Santé publique & urgences', score:86, photo:'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=500&auto=format&fit=crop' },
 ];
