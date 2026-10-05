@@ -1,8 +1,13 @@
-import { page, card, colors, Badge, Masthead, PERSONAS, StatCard, PerfCard, ActivityCard } from '../components/RichDemoUI';
+import { page, card, button, colors, Badge, Masthead, PERSONAS, StatCard, PerfCard, ActivityCard, AvailabilityCalendar, useNextDays, Toggle, useLocal } from '../components/RichDemoUI';
 
 export default function Talent(){
   const c = colors.talent;
   const me = PERSONAS.find(p=>p.key==='talent');
+  const days = useNextDays(7);
+  const [available, setAvailable] = useLocal('tsaak:talent:available', true);
+  const [slots, setSlots] = useLocal('tsaak:talent:slots', { 0:true, 1:true, 2:true, 3:false, 4:true, 5:false, 6:false });
+  function toggleDay(i,v){ setSlots({ ...slots, [i]: v }); }
+
   return <main style={page('talent')}>
     <Masthead active='castes'/>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:16,marginBottom:22}}>
@@ -16,6 +21,18 @@ export default function Talent(){
       <StatCard c={c} label='Contrats signés' value='7'/>
       <StatCard c={colors.core} label='Revenus cumulés' value='18,4K€' delta='+1,8K€'/>
     </div>
+
+    <section style={{...card(c),marginBottom:16}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12,marginBottom:14}}>
+        <div>
+          <div style={{color:c,fontWeight:900,letterSpacing:1.5,fontSize:11,textTransform:'uppercase'}}>Agenda</div>
+          <h2 style={{margin:'4px 0 0',fontSize:20}}>Ma disponibilité</h2>
+        </div>
+        <Toggle on={available} onChange={setAvailable} c={c} labelOn='Disponible maintenant' labelOff='Indisponible'/>
+      </div>
+      <AvailabilityCalendar c={c} days={days} booked={[1]} value={slots} onChange={toggleDay}/>
+      <p style={{color:'#8CA0B8',fontSize:12,margin:'12px 0 0'}}>Cliquez un jour pour basculer dispo / indispo. Le jour réservé (LCI, demain) est verrouillé — il vient d'une demande acceptée.</p>
+    </section>
 
     <div style={{display:'grid',gridTemplateColumns:'1.1fr 1.4fr',gap:16,marginBottom:26,alignItems:'stretch'}}>
       <PerfCard c={c} title='Score TSAAK — historique' value='94' data={[83,86,88,90,91,93,94]} caption="Recalculé à chaque nouvelle preuve média retrouvée par l'IA."/>

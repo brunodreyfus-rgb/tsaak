@@ -66,6 +66,35 @@ export function DashRow({avatar,icon,title,subtitle,right,rightSub,rightColor,ba
   </div>;
 }
 
+const DAY_LABELS = ['L','M','M','J','V','S','D'];
+export function useNextDays(n=7){
+  const [days,setDays]=useState(null);
+  useEffect(()=>{
+    const out=[]; const now=new Date();
+    for(let i=0;i<n;i++){ const d=new Date(now); d.setDate(now.getDate()+i); out.push({ label: DAY_LABELS[(d.getDay()+6)%7], num: d.getDate(), iso: d.toISOString().slice(0,10) }); }
+    setDays(out);
+  },[n]);
+  return days;
+}
+
+export function AvailabilityCalendar({c=colors.talent,days,booked=[],value,onChange}){
+  if(!days) return <div style={{height:84}}/>;
+  return <div style={{display:'grid',gridTemplateColumns:`repeat(${days.length},1fr)`,gap:8}}>
+    {days.map((d,i)=>{
+      const isBooked = booked.includes(i);
+      const avail = !!value[i];
+      const bg = isBooked ? 'rgba(255,255,255,.04)' : avail ? c+'22' : 'rgba(255,255,255,.03)';
+      const bd = isBooked ? 'rgba(255,255,255,.16)' : avail ? c : 'rgba(255,255,255,.16)';
+      return <div key={d.iso} onClick={()=>!isBooked && onChange(i,!avail)}
+        style={{textAlign:'center',padding:'10px 2px',borderRadius:12,background:bg,border:`1px solid ${bd}`,cursor:isBooked?'default':'pointer',opacity:isBooked?.6:1,transition:'all .15s'}}>
+        <div style={{fontSize:10,color:'#8CA0B8',fontWeight:800,letterSpacing:1}}>{d.label}</div>
+        <div style={{fontSize:16,fontWeight:900,color:isBooked?'#8CA0B8':avail?c:'#5b6b82',margin:'4px 0'}}>{d.num}</div>
+        <div style={{fontSize:9,fontWeight:700,color:isBooked?'#8CA0B8':avail?c:'#5b6b82'}}>{isBooked?'Réservé':avail?'Dispo':'Indispo'}</div>
+      </div>;
+    })}
+  </div>;
+}
+
 export function ActivityCard({c=colors.media,title,badge,rows,cta}){
   return <section style={card(c)}>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
@@ -238,7 +267,7 @@ function StepIcon({ done, active, c }){
 
 export function DiscoveryPanel(){
   const router = useRouter();
-  const [open, setOpen] = useLocal('tsaak:discovery:open', true);
+  const [open, setOpen] = useLocal('tsaak:discovery:open', false);
   const [sel, setSel] = useLocal('tsaak:discovery:case', null);
   const [mounted, setMounted] = useState(false);
   useEffect(()=>{ setMounted(true); }, []);
@@ -248,10 +277,11 @@ export function DiscoveryPanel(){
   const stepIdx = current ? current.steps.findIndex(s => s.href === path) : -1;
 
   if (!open) {
-    return <div onClick={()=>setOpen(true)} style={{position:'fixed',right:0,top:'50%',transform:'translateY(-50%)',zIndex:999,cursor:'pointer',
-      background:'linear-gradient(135deg,#F6FF0022,#ffffff10)',border:'1px solid #F6FF0066',borderRight:'none',borderRadius:'14px 0 0 14px',
-      padding:'16px 10px',color:'#F6FF00',fontWeight:800,fontSize:12,letterSpacing:1,writingMode:'vertical-rl',boxShadow:'0 0 24px rgba(246,255,0,.18)'}}>
-      ● MODE DÉCOUVERTE
+    return <div onClick={()=>setOpen(true)} title='Mode découverte — guide pas à pas' style={{position:'fixed',right:20,bottom:20,zIndex:999,cursor:'pointer',
+      width:56,height:56,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',
+      background:'linear-gradient(135deg,#F6FF0033,#ffffff14)',border:'1px solid #F6FF0066',
+      boxShadow:'0 8px 28px rgba(246,255,0,.25)',fontSize:22,lineHeight:1}}>
+      🧭
     </div>;
   }
 
